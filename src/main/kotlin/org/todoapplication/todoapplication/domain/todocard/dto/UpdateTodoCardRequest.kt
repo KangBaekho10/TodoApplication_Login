@@ -13,7 +13,7 @@ data class UpdateTodoCardRequest(
 
     @field:NotBlank
     @field:Size(min = 1, max = 1000)
-    val content : String,
+    val content: String,
 
-    val completed : Boolean,
+    val completed: Boolean,
 )

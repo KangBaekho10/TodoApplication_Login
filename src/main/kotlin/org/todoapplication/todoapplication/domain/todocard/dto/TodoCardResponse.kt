@@ -5,7 +5,7 @@ import org.todoapplication.todoapplication.domain.todocard.model.TodoCardComplet
 import java.time.LocalDateTime
 
 data class TodoCardResponse(
-    val todoId : Long,
+    val todoId: Long,
     val writer: String,
     val title: String,
     val content: String,

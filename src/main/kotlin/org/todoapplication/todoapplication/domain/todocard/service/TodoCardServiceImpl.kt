@@ -11,27 +11,27 @@ import org.todoapplication.todoapplication.domain.todocard.dto.CreateTodoCardReq
 import org.todoapplication.todoapplication.domain.todocard.dto.TodoCardResponse
 import org.todoapplication.todoapplication.domain.todocard.dto.UpdateTodoCardRequest
 import org.todoapplication.todoapplication.domain.todocard.model.TodoCard
-import org.todoapplication.todoapplication.domain.todocard.repository.TodoCardRepository
 import org.todoapplication.todoapplication.domain.todocard.model.toResponse
+import org.todoapplication.todoapplication.domain.todocard.repository.TodoCardRepository
 
 
 @Service
 class TodoCardServiceImpl(
     private val todoCardRepository: TodoCardRepository,
-): TodoCardService {
+) : TodoCardService {
 
     override fun getAllTodoCardList(pageNo: Int, count: Int): Page<TodoCardResponse> {
         val pageable: Pageable = PageRequest.of(pageNo, count)
         return todoCardRepository.findAllBy(pageable).map { it.toResponse() }
     }
 
-    override fun getTodoCardById(todoId: Long): TodoCardResponse{
+    override fun getTodoCardById(todoId: Long): TodoCardResponse {
         val todoCard = todoCardRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("TodoCard", todoId)
         return todoCard.toResponse()
     }
 
     @Transactional
-    override fun createTodoCard(request: CreateTodoCardRequest): TodoCardResponse{
+    override fun createTodoCard(request: CreateTodoCardRequest): TodoCardResponse {
         return todoCardRepository.save(
             TodoCard(
                 writer = request.writer,
@@ -55,7 +55,7 @@ class TodoCardServiceImpl(
     }
 
     @Transactional
-    override fun deleteTodoCard(todoId: Long){
+    override fun deleteTodoCard(todoId: Long) {
         val todoCard = todoCardRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("TodoCard", todoId)
         todoCardRepository.delete(todoCard)
     }

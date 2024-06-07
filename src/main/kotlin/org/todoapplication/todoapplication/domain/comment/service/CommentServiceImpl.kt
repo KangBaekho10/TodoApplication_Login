@@ -3,15 +3,14 @@ package org.todoapplication.todoapplication.domain.comment.service
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.todoapplication.todoapplication.domain.comment.dto.CommentResponse
 import org.todoapplication.todoapplication.domain.comment.dto.CommentRequest
+import org.todoapplication.todoapplication.domain.comment.dto.CommentResponse
 import org.todoapplication.todoapplication.domain.comment.dto.DeleteCommentRequest
 import org.todoapplication.todoapplication.domain.comment.model.Comment
 import org.todoapplication.todoapplication.domain.comment.model.toResponse
 import org.todoapplication.todoapplication.domain.comment.repository.CommentRepository
 import org.todoapplication.todoapplication.domain.exception.ModelNotFoundException
 import org.todoapplication.todoapplication.domain.todocard.repository.TodoCardRepository
-import org.todoapplication.todoapplication.domain.user.repository.UserRepository
 
 @Service
 class CommentServiceImpl(
@@ -38,7 +37,8 @@ class CommentServiceImpl(
 
     @Transactional
     override fun updateComment(todoId: Long, commentId: Long, request: CommentRequest): CommentResponse {
-        val comment = commentRepository.findByTodoCardTodoIdAndCommentId(todoId, commentId) ?: throw ModelNotFoundException("Comment", commentId)
+        val comment = commentRepository.findByTodoCardTodoIdAndCommentId(todoId, commentId)
+            ?: throw ModelNotFoundException("Comment", commentId)
 
         if (comment.writer == request.writer && comment.password == request.password) {
 
@@ -52,10 +52,11 @@ class CommentServiceImpl(
 
     @Transactional
     override fun deleteComment(todoId: Long, commentId: Long, request: DeleteCommentRequest) {
-        val comment = commentRepository.findByTodoCardTodoIdAndCommentId(todoId, commentId) ?: throw ModelNotFoundException("Comment", commentId)
+        val comment = commentRepository.findByTodoCardTodoIdAndCommentId(todoId, commentId)
+            ?: throw ModelNotFoundException("Comment", commentId)
         if (comment.writer == request.writer && comment.password == request.password) {
-        return commentRepository.delete(comment)
-            } else {
+            return commentRepository.delete(comment)
+        } else {
             throw IllegalArgumentException("Writer or Password does not match.")
         }
     }

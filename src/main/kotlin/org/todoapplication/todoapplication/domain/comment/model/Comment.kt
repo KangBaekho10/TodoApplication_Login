@@ -4,11 +4,10 @@ import jakarta.persistence.*
 import org.jetbrains.annotations.NotNull
 import org.todoapplication.todoapplication.domain.comment.dto.CommentResponse
 import org.todoapplication.todoapplication.domain.todocard.model.TodoCard
-import org.todoapplication.todoapplication.domain.user.model.User
 
 @Entity
-@Table(name="comment")
-class Comment (
+@Table(name = "comment")
+class Comment(
     @Column
     @NotNull
     var content: String,
@@ -21,10 +20,10 @@ class Comment (
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var commentId : Long? = null
+    var commentId: Long? = null
 }
 
-fun Comment.toResponse(): CommentResponse{
+fun Comment.toResponse(): CommentResponse {
     return CommentResponse(
         commentId = commentId!!,
         content = content,

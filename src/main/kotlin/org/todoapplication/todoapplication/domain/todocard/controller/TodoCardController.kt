@@ -27,8 +27,8 @@ class TodoCardController(
     fun getTodoCardList(
         @RequestParam(defaultValue = "desc") sort: String,
         @RequestParam(defaultValue = "") writer: String,
-        @RequestParam(required = false, defaultValue = "0", value = "Page") pageNo : Int,
-        @RequestParam(required = false, defaultValue = "10", value = "Card") count : Int
+        @RequestParam(required = false, defaultValue = "0", value = "Page") pageNo: Int,
+        @RequestParam(required = false, defaultValue = "10", value = "Card") count: Int
     ): ResponseEntity<List<TodoCardResponse>> {
         val todoCards = if (writer.isNotEmpty()) todoCardService.getAllTodoCardList(pageNo, count)
             .filter { it.writer == writer } else todoCardService.getAllTodoCardList(pageNo, count)
@@ -63,7 +63,7 @@ class TodoCardController(
         @Valid @RequestBody updateTodoCardRequest: UpdateTodoCardRequest,
         bindingResult: BindingResult
     ): ResponseEntity<TodoCardResponse> {
-        return if(bindingResult.hasErrors()) {
+        return if (bindingResult.hasErrors()) {
             ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
         } else {
             ResponseEntity

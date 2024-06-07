@@ -1,6 +1,5 @@
 package org.todoapplication.todoapplication.domain.user.controller
 
-import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -26,7 +25,7 @@ class UserController(
     }
 
     @PostMapping("/login")
-    fun login (@RequestBody request: LoginRequest): ResponseEntity<LoginResponse> {
+    fun login(@RequestBody request: LoginRequest): ResponseEntity<LoginResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(userService.login(request))

@@ -6,24 +6,24 @@ import org.todoapplication.todoapplication.domain.comment.dto.CommentResponse
 import org.todoapplication.todoapplication.domain.todocard.model.TodoCard
 
 @Entity
-@Table(name = "comment")
-class Comment(
+@Table(name="comment")
+class Comment (
     @Column
     @NotNull
     var content: String,
     var writer: String,
-    var password: String,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "todoCard_id")
+    @JoinColumn(name = "todo_id")
     val todoCard: TodoCard,
-) {
+
+    ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var commentId: Long? = null
+    var commentId : Long? = null
 }
 
-fun Comment.toResponse(): CommentResponse {
+fun Comment.toResponse(): CommentResponse{
     return CommentResponse(
         commentId = commentId!!,
         content = content,

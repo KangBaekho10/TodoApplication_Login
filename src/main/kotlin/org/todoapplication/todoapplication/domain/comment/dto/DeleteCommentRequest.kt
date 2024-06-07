@@ -1,6 +1,5 @@
 package org.todoapplication.todoapplication.domain.comment.dto
 
-data class DeleteCommentRequest(
+data class DeleteCommentRequest (
     val writer: String,
-    val password: String,
 )

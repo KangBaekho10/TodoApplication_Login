@@ -7,22 +7,20 @@ import org.todoapplication.todoapplication.domain.comment.dto.CommentRequest
 import org.todoapplication.todoapplication.domain.comment.dto.CommentResponse
 import org.todoapplication.todoapplication.domain.comment.dto.DeleteCommentRequest
 import org.todoapplication.todoapplication.domain.comment.service.CommentService
-import org.todoapplication.todoapplication.domain.user.service.UserService
 
 @RequestMapping("/todocards/{todoId}")
 @RestController
 class CommentController(
     private val commentService: CommentService,
-    private val userService: UserService,
 ) {
     @PostMapping("/comments")
     fun createComment(
         @PathVariable todoId: Long,
         @RequestBody commentRequest: CommentRequest
-    ): ResponseEntity<CommentRequest> {
+    ): ResponseEntity<CommentResponse> {
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(commentRequest)
+            .body(commentService.createComment(todoId, commentRequest))
     } // 생성
 
     @PutMapping("/comments/{commentId}")

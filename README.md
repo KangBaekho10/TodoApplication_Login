@@ -70,13 +70,17 @@ Spring 과제로 투두앱 백엔드 서버를 만들었습니다. <br/>
 
 **개발 예정**
   > - 소셜 로그인 기능
+
 </div></details>
 
 <details>
 <summary>STEP 4</summary><div>
+  
 **개발 예정**
+  
   > - Test code
   > - Query DSL
+
 </div></details>
 
 ## WHY?

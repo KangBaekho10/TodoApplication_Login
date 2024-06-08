@@ -12,6 +12,7 @@ class Comment (
     @NotNull
     var content: String,
     var writer: String,
+    var password: String,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "todo_id")

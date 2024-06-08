@@ -29,6 +29,7 @@ class CommentServiceImpl(
             Comment(
                 writer = request.writer,
                 content = request.content,
+                password = request.password,
                 todoCard = todoCard,
             )
         ).toResponse()
@@ -38,7 +39,7 @@ class CommentServiceImpl(
     override fun updateComment(todoId: Long, commentId: Long, request: CommentRequest): CommentResponse {
         val comment = commentRepository.findByTodoCardTodoIdAndCommentId(todoId, commentId) ?: throw ModelNotFoundException("Comment", commentId)
 
-        if (comment.writer == request.writer) {
+        if (comment.writer == request.writer && comment.password == request.password) {
 
             comment.content = request.content
 
@@ -51,7 +52,7 @@ class CommentServiceImpl(
     @Transactional
     override fun deleteComment(todoId: Long, commentId: Long, request: DeleteCommentRequest) {
         val comment = commentRepository.findByTodoCardTodoIdAndCommentId(todoId, commentId) ?: throw ModelNotFoundException("Comment", commentId)
-        if (comment.writer == request.writer) {
+        if (comment.writer == request.writer && comment.password == request.password) {
             return commentRepository.delete(comment)
         } else {
             throw IllegalArgumentException("Writer or Password does not match.")

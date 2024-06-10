@@ -3,6 +3,7 @@ package org.todoapplication.todoapplication.domain.todocard.controller
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
 import org.todoapplication.todoapplication.domain.todocard.dto.CreateTodoCardRequest
@@ -42,6 +43,13 @@ class TodoCardController(
             .status(HttpStatus.OK)
             .body(sortedTodoCard)
     } // 목록 조회
+
+    @GetMapping("/search")
+    fun searchTodoCardList(@RequestParam(name = "title") title: String): ResponseEntity<List<TodoCardResponse>> {
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(todoCardService.searchTodoCardList(title))
+    }
 
     @PostMapping
     fun createTodoCard(

@@ -5,6 +5,6 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.todoapplication.todoapplication.domain.todocard.model.TodoCard
 
-interface TodoCardRepository : JpaRepository<TodoCard, Long> {
+interface TodoCardRepository : JpaRepository<TodoCard, Long>, CustomTodoCardRepository {
     fun findAllBy(pageable: Pageable): Page<TodoCard>
 }

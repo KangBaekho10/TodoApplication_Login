@@ -12,12 +12,14 @@ import org.todoapplication.todoapplication.domain.todocard.dto.TodoCardResponse
 import org.todoapplication.todoapplication.domain.todocard.dto.UpdateTodoCardRequest
 import org.todoapplication.todoapplication.domain.todocard.model.TodoCard
 import org.todoapplication.todoapplication.domain.todocard.model.toResponse
+import org.todoapplication.todoapplication.domain.todocard.repository.TodoCardRepositoryImpl
 import org.todoapplication.todoapplication.domain.todocard.repository.TodoCardRepository
 
 
 @Service
 class TodoCardServiceImpl(
     private val todoCardRepository: TodoCardRepository,
+    private val todoCardRepositoryImpl: TodoCardRepositoryImpl
 ) : TodoCardService {
 
     override fun getAllTodoCardList(pageNo: Int, count: Int): Page<TodoCardResponse> {
@@ -28,6 +30,10 @@ class TodoCardServiceImpl(
     override fun getTodoCardById(todoId: Long): TodoCardResponse {
         val todoCard = todoCardRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("TodoCard", todoId)
         return todoCard.toResponse()
+    }
+
+    override fun searchTodoCardList(title: String): List<TodoCardResponse> {
+        return todoCardRepositoryImpl.searchTodoCardListByTitle(title).map { it.toResponse() }
     }
 
     @Transactional

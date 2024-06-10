@@ -10,6 +10,8 @@ interface TodoCardService {
 
     fun getTodoCardById(todoId: Long): TodoCardResponse
 
+    fun searchTodoCardList(title: String): List<TodoCardResponse>
+
     fun createTodoCard(request: CreateTodoCardRequest): TodoCardResponse
 
     fun updateTodoCard(todoId: Long, request: UpdateTodoCardRequest): TodoCardResponse

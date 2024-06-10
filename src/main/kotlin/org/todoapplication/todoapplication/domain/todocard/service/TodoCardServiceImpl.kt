@@ -12,8 +12,8 @@ import org.todoapplication.todoapplication.domain.todocard.dto.TodoCardResponse
 import org.todoapplication.todoapplication.domain.todocard.dto.UpdateTodoCardRequest
 import org.todoapplication.todoapplication.domain.todocard.model.TodoCard
 import org.todoapplication.todoapplication.domain.todocard.model.toResponse
-import org.todoapplication.todoapplication.domain.todocard.repository.TodoCardRepositoryImpl
 import org.todoapplication.todoapplication.domain.todocard.repository.TodoCardRepository
+import org.todoapplication.todoapplication.domain.todocard.repository.TodoCardRepositoryImpl
 
 
 @Service

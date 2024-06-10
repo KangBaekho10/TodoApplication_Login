@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 
 data class CreateTodoCardRequest(
     @field:NotBlank
-    val writer : String,
+    val writer: String,
 
     @field:NotBlank
     @field:Size(min = 1, max = 200)
@@ -14,7 +14,7 @@ data class CreateTodoCardRequest(
 
     @field:NotBlank
     @field:Size(min = 1, max = 1000)
-    val content : String,
+    val content: String,
 
-    val date : LocalDateTime
+    val date: LocalDateTime
 )

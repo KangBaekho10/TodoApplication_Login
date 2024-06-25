@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.todoapplication.todoapplication.domain.exception.dto.ErrorResponse
-import org.todoapplication.todoapplication.domain.user.exception.InvalidCredentialException
 
 @RestControllerAdvice
 class GlobalExceptionHandler {

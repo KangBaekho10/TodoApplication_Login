@@ -8,9 +8,9 @@ data class UserPrincipal(
     val email: String,
     val authorities: Collection<GrantedAuthority>
 ) {
-    constructor(id: Long, email: String, role: Set<String>) : this (
+    constructor(id: Long, email: String, role: Set<String>) : this(
         id,
         email,
-        role.map{ SimpleGrantedAuthority("ROLE_$it") }
+        role.map { SimpleGrantedAuthority("ROLE_$it") }
     )
 }

@@ -11,7 +11,9 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.repository.findByIdOrNull
 import org.todoapplication.todoapplication.domain.exception.ModelNotFoundException
-import org.todoapplication.todoapplication.domain.todocard.repository.TodoCardRepository
+import org.todoapplication.todoapplication.domain.todo.todocard.repository.TodoCardRepository
+import org.todoapplication.todoapplication.domain.todo.todocard.repository.TodoCardRepositoryImpl
+import org.todoapplication.todoapplication.domain.todo.todocard.service.TodoCardServiceImpl
 
 @SpringBootTest
 @ExtendWith(MockKExtension::class)
@@ -23,10 +25,11 @@ class CourseServiceTest : BehaviorSpec({
     }
 
     val todoCardRepository = mockk<TodoCardRepository>()
+    val todoCardRepositoryImpl = mockk<TodoCardRepositoryImpl>()
 
-    val todoCardService = TodoCardServiceImpl(todoCardRepository)
+    val todoCardService = TodoCardServiceImpl(todoCardRepository, todoCardRepositoryImpl)
 
-    Given("TodoCard 목록이 존재하지 않을때") {
+    Given("TodoCard가 존재하지 않을때") {
         When("특정 TodoCard를 요청하면") {
             Then("ModelNotFoundException이 발생해야 한다.") {
                 val todoId = 1L
@@ -36,7 +39,6 @@ class CourseServiceTest : BehaviorSpec({
                     todoCardService.getTodoCardById(todoId)
                 }
             }
-
         }
     }
 })

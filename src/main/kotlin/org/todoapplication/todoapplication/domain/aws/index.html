@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS S3로 이미지 업로드 하기</title>
+    <script src="app.js"></script>
+</head>
+<body>
+<h2>이미지 업로드</h2>
+<form action="/api/upload" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" id="fileInput" accept=".jpg, .jpeg, .png" required>
+    <br>
+    <button type="button" onclick="uploadImage()">업로드</button>
+</form>
+</body>
+</html>

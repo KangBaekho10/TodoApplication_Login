@@ -12,8 +12,7 @@ import org.todoapplication.todoapplication.domain.todo.user.repository.UserRepos
 
 @DataJpaTest
 @ExtendWith(SpringExtension::class)
-class UserRepositoryTest
-{
+class UserRepositoryTest {
     @Autowired
     lateinit var userRepository: UserRepository
 
@@ -21,14 +20,14 @@ class UserRepositoryTest
     @DisplayName("회원 가입 테스트")
     fun dynamicInsertTest() {
         // given
-        val newUser = User(email = "admin@admin.com", password = "admin", nickname = "Admin")
+        val newUser = User(email = "admin@admin.com", password = "password123", nickname = "Admin123")
 
         // when
         val saveUser = userRepository.save(newUser)
 
         // then
         Assertions.assertEquals("admin@admin.com", saveUser.email);
-        Assertions.assertEquals("admin", saveUser.password);
-        Assertions.assertEquals("Admin", saveUser.nickname);
+        Assertions.assertEquals("password123", saveUser.password);
+        Assertions.assertEquals("Admin123", saveUser.nickname);
     }
 }

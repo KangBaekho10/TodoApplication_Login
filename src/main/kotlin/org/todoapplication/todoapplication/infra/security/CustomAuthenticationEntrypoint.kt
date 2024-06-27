@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component
 import org.todoapplication.todoapplication.domain.exception.dto.ErrorResponse
 
 @Component
-class CustomAuthenticationEntrypoint: AuthenticationEntryPoint {
+class CustomAuthenticationEntrypoint : AuthenticationEntryPoint {
 
     override fun commence(
         request: HttpServletRequest,

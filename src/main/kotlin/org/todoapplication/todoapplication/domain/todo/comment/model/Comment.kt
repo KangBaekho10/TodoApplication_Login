@@ -6,8 +6,8 @@ import org.todoapplication.todoapplication.domain.todo.comment.dto.CommentRespon
 import org.todoapplication.todoapplication.domain.todo.todocard.model.TodoCard
 
 @Entity
-@Table(name="comment")
-class Comment (
+@Table(name = "comment")
+class Comment(
     @Column
     @NotNull
     var content: String,
@@ -21,7 +21,7 @@ class Comment (
     ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var commentId : Long? = null
+    var commentId: Long? = null
 }
 
 fun Comment.toResponse(): CommentResponse {

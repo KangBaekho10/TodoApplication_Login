@@ -17,7 +17,7 @@ class User(
 
 fun User.toResponse(): UserResponse {
     return UserResponse(
-        id = id?: throw IllegalStateException("UserId should not be null"),
+        id = id ?: throw IllegalStateException("UserId should not be null"),
         nickname = nickname,
         email = email,
     )

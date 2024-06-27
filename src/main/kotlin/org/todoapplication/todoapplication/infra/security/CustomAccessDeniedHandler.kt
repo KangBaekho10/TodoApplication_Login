@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component
 import org.todoapplication.todoapplication.domain.exception.dto.ErrorResponse
 
 @Component
-class CustomAccessDeniedHandler: AccessDeniedHandler {
+class CustomAccessDeniedHandler : AccessDeniedHandler {
 
     override fun handle(
         request: HttpServletRequest,

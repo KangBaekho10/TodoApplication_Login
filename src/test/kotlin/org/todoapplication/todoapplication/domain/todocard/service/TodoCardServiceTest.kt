@@ -25,9 +25,8 @@ class CourseServiceTest : BehaviorSpec({
     }
 
     val todoCardRepository = mockk<TodoCardRepository>()
-    val todoCardRepositoryImpl = mockk<TodoCardRepositoryImpl>()
 
-    val todoCardService = TodoCardServiceImpl(todoCardRepository, todoCardRepositoryImpl)
+    val todoCardService = TodoCardServiceImpl(todoCardRepository)
 
     Given("TodoCard가 존재하지 않을때") {
         When("특정 TodoCard를 요청하면") {

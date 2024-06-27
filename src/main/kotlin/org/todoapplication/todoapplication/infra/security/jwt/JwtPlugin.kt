@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 import java.nio.charset.StandardCharsets
 import java.time.Duration
 import java.time.Instant
-import java.util.Date
+import java.util.*
 
 @Component
 class JwtPlugin {
@@ -21,7 +21,7 @@ class JwtPlugin {
 
     fun validateToken(jwt: String): Result<Jws<Claims>> {
         return kotlin.runCatching {
-           val key = Keys.hmacShaKeyFor(SECRET.toByteArray(StandardCharsets.UTF_8))
+            val key = Keys.hmacShaKeyFor(SECRET.toByteArray(StandardCharsets.UTF_8))
             Jwts.parser().verifyWith(key).build().parseSignedClaims(jwt)
         }
     }
@@ -30,7 +30,7 @@ class JwtPlugin {
         return generateToken(subject, email, Duration.ofHours(ACCESS_TOKEN_EXPIRATION_HOUR))
     }
 
-    private fun generateToken(subject: String, email: String, expirationPeriod: Duration): String{
+    private fun generateToken(subject: String, email: String, expirationPeriod: Duration): String {
         val claims: Claims = Jwts.claims().add(mapOf("email" to email)).build()
 
         val key = Keys.hmacShaKeyFor(SECRET.toByteArray(StandardCharsets.UTF_8))

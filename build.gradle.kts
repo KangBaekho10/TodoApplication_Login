@@ -49,6 +49,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("com.fasterxml.jackson.core:jackson-databind")
+    implementation("jakarta.validation:jakarta.validation-api:3.0.0")
+    implementation("com.amazonaws:aws-java-sdk-s3:1.12.9")
     runtimeOnly("com.h2database:h2")
     kapt("com.querydsl:querydsl-apt:$queryDslVersion:jakarta")
 

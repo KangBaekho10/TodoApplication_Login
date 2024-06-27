@@ -14,10 +14,10 @@ import org.todoapplication.todoapplication.infra.security.UserPrincipal
 @Component
 class JwtAuthenticationFilter(
     private val jwtPlugin: JwtPlugin,
-): OncePerRequestFilter() {
+) : OncePerRequestFilter() {
 
     companion object {
-        private val BEARER_PATTERN  = Regex("^Bearer (.+?)$")
+        private val BEARER_PATTERN = Regex("^Bearer (.+?)$")
     }
 
     override fun doFilterInternal(
@@ -41,7 +41,7 @@ class JwtAuthenticationFilter(
                     )
                     val authentication = JwtAuthenticationToken(
                         principal = principal,
-                        details =  WebAuthenticationDetailsSource().buildDetails(request)
+                        details = WebAuthenticationDetailsSource().buildDetails(request)
                     )
                     SecurityContextHolder.getContext().authentication = authentication
                 }

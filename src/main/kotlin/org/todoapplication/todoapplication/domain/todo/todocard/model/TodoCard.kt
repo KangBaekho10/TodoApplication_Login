@@ -14,9 +14,9 @@ class TodoCard(
     @NotNull
     var writer: String,
     var title: String,
-    val category: String,
-    val tag: String,
-    val state: String,
+    var category: String,
+    var tag: String,
+    var state: String,
     var content: String,
     var date: LocalDateTime,
 
@@ -26,7 +26,7 @@ class TodoCard(
     var completed: TodoCardCompleted = TodoCardCompleted.FALSE,
 
     @OneToMany(mappedBy = "todoCard", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
-    val comment: MutableList<Comment> = mutableListOf()
+    val comment: MutableList<Comment> = mutableListOf(),
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,6 +44,6 @@ fun TodoCard.toResponse(): TodoCardResponse {
         category = category,
         state = state,
         tag = tag,
-        comments = comment.map { it.toResponse() }
+        comments = comment.map { it.toResponse() },
     )
 }

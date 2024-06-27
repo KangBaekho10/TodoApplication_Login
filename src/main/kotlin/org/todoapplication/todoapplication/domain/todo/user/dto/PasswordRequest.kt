@@ -1,6 +1,5 @@
 package org.todoapplication.todoapplication.domain.todo.user.dto
 
-data class LoginRequest(
-    val email: String,
+data class PasswordRequest(
     val password: String,
 )

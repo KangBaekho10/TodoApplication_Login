@@ -9,6 +9,8 @@ Spring 과제로 투두앱 백엔드 서버를 만들었습니다. <br/>
 - [WHY?](#why)
 - [기획 및 설계](#기획-및-설계)
 - [코드 구조](#코드-구조)
+- [복습 과제](https://github.com/KangBaekho10/TodoApplication_Login/tree/review)
+- [개선 과제](https://github.com/KangBaekho10/TodoApplication_Login/tree/improvement)
 
 ## 요구 사항
 

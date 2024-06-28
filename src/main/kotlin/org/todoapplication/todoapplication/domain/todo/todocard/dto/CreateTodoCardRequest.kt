@@ -9,11 +9,11 @@ data class CreateTodoCardRequest(
     val writer: String,
 
     @field:NotBlank
-    @field:Size(min = 1, max = 200)
+    @field:Size(min = 1, max = 500)
     val title: String,
 
     @field:NotBlank
-    @field:Size(min = 1, max = 1000)
+    @field:Size(min = 1, max = 5000)
     val content: String,
 
     val category: String,

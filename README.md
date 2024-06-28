@@ -2,367 +2,337 @@
 
 Spring 과제로 투두앱 백엔드 서버를 만들었습니다. <br/>
 
-기본 투두앱 백엔드 서버에 대해 로그인 한 유저만 사용 가능하도록 만들었습니다.
+기존 백엔드 서버에 기능을 추가 및 개선사항을 추가하였습니다.
 
 ## 목차
 - [요구 사항](#요구-사항)
-- [WHY?](#why)
-- [기획 및 설계](#기획-및-설계)
-- [코드 구조](#코드-구조)
-- [복습 과제](https://github.com/KangBaekho10/TodoApplication_Login/tree/review)
-- [개선 과제](https://github.com/KangBaekho10/TodoApplication_Login/tree/improvement)
+- [개선 코드](#개선-코드)
 
 ## 요구 사항
 
 <details>
-<summary>STEP 1</summary><div>
+<summary> Review </summary><div>
   
-**할 일 카드 작성 기능**
-  > - `할 일 제목`, `할 일 내용`, `작성일`, `작성자 이름`을 입력받아 저장할 수 있습니다.
-  > - 저장된 할 일의 정보를 반환받아 확인할 수 있습니다.
+** 회원 가입 API **
+  > - 회원 가입시 닉네임은 최소 3자 이상, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)를 구성해야 합니다.
+  > - 회원 가입시 비밀번호는 최소 4자 이상 구성해야 합니다.
+  > - 회원 가입시 비밀번호와 닉네임에 같은 값이 포함된 경우 회원가입에 실패합니다.
+  > - 비밀번호 확인 시 비밀번호와 정확하게 일치하지 않으면 실패합니다.
+  > - DB에 존재하는 닉네임을 입력한 채 회원가입시 "중복된 닉네임입니다."라는 에러 메시지가 출력됩니다.
+  > - 회원 가입 전에 같은 닉네임이 DB에 존재하는지 유효성 검증을 할 수 있습니다.
 
-**선택한 할 일 조회 기능**
-  > - 선택한 할 일의 정보를 조회할 수 있습니다.
-  > - 반환받은 할 일 정보에는 `할 일 제목`, `할 일 내용`, `작성일`, `작성자 이름`을 정보가 들어있습니다.
+** 로그인 API **
+  > - 로그인시 이메일과 닉네임, 비밀번호를 요구하였습니다.
+  > - 로그인시 이메일을 기준으로 잡고 닉네임과 비밀번호 검증을 합니다.
+>   - 하나라도 DB와 일치하지 않는다면 "닉네임 또는 패스워드를 확인해주세요" 라는 에러 메시지가 출력됩니다.
 
-**할 일 카드 목록 조회 기능**
-  > - 등록된 할 일 전체를 조회할 수 있습니다.
-  > - 조회된 할 일 목록은 작성일 기준 내림차순으로 정렬되어 있습니다.
-
-**선택한 할 일 수정 기능**
-  > - 선택한 할 일의 `할 일 제목`, `할 일 내용`, `작성자 이름`을 수정할 수 있습니다.
-  > - 수정된 할 일의 정보를 반환받아 확인할 수 있습니다.
-
-**선택한 할 일 삭제 기능**
-  > - 선택한 게시글을 삭제할 수 있습니다.
+**게시글 작성 API**
+  > - 게시글로 제목은 500자까지, 내용은 5000자까지만 입력 가능합니다.
 
 </div></details>
 
 <details>
-<summary>STEP 2</summary><div>
+<summary> Improvement </summary><div>
 
-**할 일 카드 완료 기능**
-  > - 완료 처리할 할 일 카드는 목록 조회 시 `완료 여부` 필드가 `TRUE`로 내려갑니다.
-  > - `완료 여부` 기본 값은 `FALSE`입니다.
+** Service 패키지 개선 **
+  > - 인터페이스와 구현체를 분리하여 추상화하였습니다.
 
-**댓글 작성 기능**
-  > - `작성자 이름`, `비밀번호`, `댓글`을 입력받아 저장할 수 있습니다.
-  > - 응답에서 `비밀번호`는 제외하고 등록된 댓글을 반환합니다.
+** CustomException **
+  > - RuntimeException을 상속받아 CustomException을 구현하여 상황에 맞게 사용하였습니다.
 
-**댓글 수정 기능**
-  > - `작성자 이름`, `비밀번호`를 입력받아 저장된 값과 일치하면 수정할 수 있습니다.
-  > - 응답에서 `비밀번호`는 제외하고 수정된 댓글을 반환합니다.
+** Spring AOP 적용 **
+  > - 간단한 Spring AOP를 사용하여 부가기능을 추가하였습니다.
 
-**댓글 삭제 기능**
-  > - `작성자 이름`, `비밀번호`를 입력받아 저장된 값과 일치하면 삭제할 수 있습니다.
-  > - 응답에서 삭제 메시지와 상태 코드를 반환합니다.
+** 다양한 조건의 동적 쿼리 **
+  > - 다음의 조건을 만족하는 동적 쿼리를 작성하였습니다.
+>   - (포함) 조건은 주어진 값이 포함되어있다면 조회, (정확히 일치) 조건은 값이 정확히 일치해야 조회합니다.
+>   - 제목 (포함)
+>   - 태그 (포합)
+>   - 카테고리 (정확히 일치)
+>   - 게시글 상태 (정확히 일치)
+>   - N일전 게시글
 
-**댓글 조회 기능**
-  > - STEP 1에서 만든 할 일 조회 API의 응답에서 댓글을 조회할 수 있습니다.
-  > - 연관되지 않은 댓글은 포함되지 않아야 합니다. 
+** 테스트 코드 **
+  > - Controller, Service, Repository에 해당하는 간단한 테스트 코드를 작성하였습니다.
 
-</div></details>
-
-<details>
-<summary>STEP 3</summary><div>
-
-**개발 완료**
-  > - 회원가입 및 로그인이 가능합니다.
-  > - 로그인한 사용자만 투두앱의 기능들을 사용할 수 있습니다.
-
-**개발 예정**
-  > - 소셜 로그인 기능
+** AWS **
+  > - S3를 이용해 이미지 업로드 기능을 구현하였습니다.
 
 </div></details>
 
 <details>
-<summary>STEP 4</summary><div>
+<summary> 개발 예정 </summary><div>
   
-**개발 예정**
-  
-  > - Test code
-  > - Query DSL
+**로그인 API**
+  > - JWT Cookie
+
+**댓글 작성**
+  > - 게시글에 종아요 기능
+
+**테스트 코드**
+  > - Controller, Service, Repository에 해당하는 모든 부분을 테스트 코드로 작성하기
+
+**AWS**
+  > - S3를 이용해 이미지 업로드 기능을 todo에서 가능하도록 만들기
+  > - EC2를 이용해 애플리케이션 .jar 파일 배포하기 
 
 </div></details>
 
-## WHY?
+
+## 개선 코드
 
 <details>
-<summary>질문 사항</summary><div>
+<summary> Review </summary><div>
 
-Q1. 요청한 사용자가 누구인지, api를 호출할 권한이 있는지를 어떻게 알 수 있을까요? <br/>
-> A. 회원가입과 로그인을 진행하면 AccessToken을 발행하게 되고, 이 Token을 통해 Authorize가 확인되면 API를 사용할 수 있게 됩니다.<br/>
-
-Q2. basic authentication과 bearer authentication은 어떤 차이가 있나요? 또한 장단점을 말해주세요.<br/>
-> A1. basic authentication의 경우 ID와 Password를 Base64 인코딩한 값을 토큰으로 사용합니다. 간단하지만 정교하지 않습니다.<br/>
-> A2. bearer authentication의 경우 JWT 혹은 OAuth를 통한 인증 용도로 사용합니다. 안전하고 확장이 쉽지만, 토큰 노출에 취약합니다.<br/>
-
-</div></details>
-
-## 기획 및 설계
-
-#### 1. Event Storming
-
-![image](https://github.com/KangBaekho10/TodoApplication/assets/166815465/a90fb0c5-b9fc-43c1-8f36-8c2338f96912)
-
-#### 2. Use Case Diagram
-
-![image](https://github.com/KangBaekho10/TodoApplication/assets/166815465/2ae4bff6-4df0-4ae2-be77-4597aa227e6b)
-
-#### 3. API Specification
-
-![image](https://github.com/KangBaekho10/TodoApplication_Login/assets/166815465/739aa128-f739-4e3c-804d-30b862065764)
-
-#### 4. ERD
-  
-![image](https://github.com/KangBaekho10/TodoApplication_Login/assets/166815465/35b4912f-9e06-4eb7-babd-53ae839f2ed6)
-
-## 코드 구조
-
-할 일 카드에 대한 `TodoCard`와 댓글 대한 `Comment`로 API를 나누었습니다.
-
-Spring의 Layer 구조와 DB에 맞추어 패키지를 `Controller` , `Dto` , `Service` , `Repository`, `Model`로 나누었습니다.
-
-- 동작 과정
-
-```Kotlin
-1) Web Layer에 해당하는 'Controller'에서 Client로부터 Request 받는다.
-
-2) Request에 맞는 함수를 'Dto'에서 찾아 Service Layer에 해당하는 'Service'로 넘겨준다.
-
-3) 'Service'에서는 Request에 대한 실제 동작이 이루어진다. (삽입, 수정, 삭제, 조회)
-
-4) 'Service'는 Entity를 통해 동작한 Data를 Repository Layer에 해당하는 'Repository'로 넘겨준다.
-
-5) 'Repository'는 'Model'과 직접 연결되어 있고, 'Model'은 Repository에 의해 넘겨받은 Data를 DB에서 동작한다.
-
-6) 동작한 내용은 다시 역순으로 진행하고, Web Layer를 통해 Client에게 Response 해준다.
-```
-
-<details>
-<summary> TodoCard </summary><div>
-
-- Controller
+- 회원 가입 API
 
 ```Kotlin
 
-// 단일 카드 조회
-fun getTodoCard(@PathVariable userId: Long) : ResponseEntity<TodoCardResponse> {
-...
+// UserServiceImpl.kt
+// 회원가입 검증
+        if (userRepository.existsByEmail(request.email)) {
+            throw IllegalStateException("중복된 이메일입니다.")
+        }
+        if (request.nickname.length < 3) {
+            throw IllegalStateException("닉네임은 최소 3자 이상 필요합니다.")
+        } else if (nicknameLower.contains(passwordLower)) {
+            throw IllegalStateException("닉네임에 비밀번호가 포함될 수 없습니다.")
+        } else if (userRepository.existsByNickname(request.nickname)) {
+            throw IllegalStateException("중복된 닉네임입니다.")
+        } else if (!isValidNickname(request.nickname)) {
+            throw IllegalStateException("닉네임에 최소 4자 이상 필요하고, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)로 구성되어야 합니다.")
+        }
+
+// 닉네임 유효성 검증
+fun isValidNickname(nickname: String): Boolean {
+        val regex = Regex("^(=*[a-zA-Z0-9]){4,}\$")
+        return regex.matches(nickname)
 }
 
-// 전체 카드 조회
-fun getTodoCardList(): ResponseEntity<List<TodoCardResponse>> {
-...
-}
+// 비밀번호 확인
+    override fun passwordCheck(request: PasswordRequest) {
+        val userId = getUserIdFromToken()
 
-// 할 일 카드 생성
-fun createTodoCard(@RequestBody createTodoCardRequest: CreateTodoCardRequest): ResponseEntity<TodoCardResponse> {
-...
-}
+        val user = userRepository.findById(userId) ?: throw ModelNotFoundException("User", null)
 
-// 할 일 카드 수정
-fun updateTodoCard(
-    @PathVariable userId: Long,
-    @RequestBody updateTodoCardRequest: UpdateTodoCardRequest
-) : ResponseEntity<TodoCardResponse> {
-...
-}
+        if (!passwordEncoder.matches(request.password, user.password)) {
+            throw IllegalStateException("비밀번호가 일치하지 않습니다.")
+        }
+    }
 
-// 할 일 카드 삭제
-fun deleteTodoCard(@PathVariable userId: Long) : ResponseEntity<Unit> {
-...
-}
+// 닉네임 확인
+override fun isNicknameAvailable(nickname: String): Boolean {
+        val alreadyUsed = userRepository.findByNickname(nickname)
+        if (!isValidNickname(nickname)) {
+            throw IllegalStateException("닉네임에 최소 4자 이상 필요하고, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)로 구성되어야 합니다.")
+        } else if (userRepository.existsByNickname(nickname)) {
+            throw IllegalStateException("중복된 닉네임입니다.")
+        }
+        return alreadyUsed == null
+    }
 
 ```
 
-- Service
+- 로그인 API
 
 ```Kotlin
 
-// 단일 카드 조회
-fun getTodoCardById(userId: Long): TodoCardResponse
+// UserServiceImpl.kt
+// 닉네임, 비밀번호 검증
+    override fun login(request: UserRequest): LoginResponse {
+        val user = userRepository.findByEmail(request.email) ?: throw ModelNotFoundException("User", null)
 
-// 전체 카드 조회
-fun getAllTodoCardList(): List<TodoCardResponse>
+        if (request.nickname != user.nickname || !passwordEncoder.matches(request.password, user.password)) {
+            throw InvalidCredentialException()
+        }
 
-// 할 일 카드 생성
-fun createTodoCard(request: CreateTodoCardRequest): TodoCardResponse
+        return LoginResponse(
+            accessToken = jwtPlugin.generateAccessToken(
+                subject = user.id.toString(),
+                email = user.email,
+            )
+        )
+    }
 
-// 할 일 카드 수정
-fun updateTodoCard(userId: Long, request: UpdateTodoCardRequest): TodoCardResponse
-
-// 할 일 카드 삭제
-fun deleteTodoCard(userId: Long)
+// InvalidCredentialException.kt
+// CustomeException
+data class InvalidCredentialException(
+    override val message: String? = "닉네임 또는 패스워드를 확인해주세요."
+) : RuntimeException()
 
 ```
 
-- Repository
+- 게시글 작성 API
 
 ```Kotlin
 
-interface TodoCardRepository: JpaRepository<TodoCard, Long> {}
+// CreateTodoCardRequest.kt
+// 글자 수 제한
+    @field:NotBlank
+    @field:Size(min = 1, max = 500)
+    val title: String,
 
-```
-
-- Model
-
-```Kotlin
-...
-// 1:N
-// DATA에 맞는 DB Column을 지정
-class TodoCard (
-...
-    @OneToMany(mappedBy = "todoCard", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
-    val comment: MutableList<Comment> = mutableListOf()
-...
-)
-
-// Column 일치하는 곳에 DATA 삽입
-fun TodoCard.toResponse(): TodoCardResponse { 
-...
-}
+    @field:NotBlank
+    @field:Size(min = 1, max = 5000)
+    val content: String,
 
 ```
 
 </div></details>
 
 <details>
-<summary> Comment </summary><div>
+<summary> Improvement </summary><div>
 
-- Controller
+- CustomException
 
 ```Kotlin
 
-// 댓글 생성
-fun createComment(
-  @PathVariable userId: Long,
-  @RequestBody commentRequest: CommentRequest
-): ResponseEntity<CommentResponse> {
+// IllegalArgumentException.kt
+// 작성자 또는 패스워드 일치 확인
+data class IllegalArgumentException(
+    override val message: String? = "Writer or Password does not match."
+) : RuntimeException()
+
+// IllegalStateException.kt
+// 이메일 중복 확인
+data class IllegalStateException(
+    override val message: String? = "Email is already in use"
+) : RuntimeException()
+
+// InvalidCredentialException.kt
+// 닉네임 또는 패스워드 일치 확인
+data class InvalidCredentialException(
+    override val message: String? = "닉네임 또는 패스워드를 확인해주세요."
+) : RuntimeException()
+
+// ModelNotFoundException.kt
+// model 확인
+data class ModelNotFoundException(
+    val modelName: String, val userid: Long?
+) : RuntimeException("Model $modelName not found with id $userid")
+
+```
+
+- Spring AOP 적용
+
+```Kotlin
+
+// StopWatch 구현
+class StopWatchAspect {
 ...
 }
 
-// 댓글 수정
-fun updateComment(
-  @PathVariable userId: Long,
-  @PathVariable commentId: Long,
-  @RequestBody commentRequest: CommentRequest
-): ResponseEntity<CommentResponse> {
+// StopWatch 구현 확인
+class TestAop {
+    @Around("execution(* org.todoapplication.todoapplication.domain.todo.todocard.service.TodoCardService.getTodoCardById(..))")
+    fun thisIsAdvice(joinPoint: ProceedingJoinPoint) {
+        println("AOP START!!!")
+        joinPoint.proceed()
+        println("AOP END!!!")
+    }
+}
+
+```
+
+- 다양한 조건의 동적 쿼리
+
+```Kotlin
+
+// TodoCardRepositoryImpl.kt
+// 단순 검색
+override fun search(searchCondition: Map<String, String>): List<TodoCard> {
 ...
 }
 
-// 댓글 삭제
-fun updateComment(
-  @PathVariable userId: Long,
-  @PathVariable commentId: Long,
-  @RequestBody commentRequest: CommentRequest
-): ResponseEntity<CommentResponse> {
+//조건 확인
+private fun allCond(searchCondition: Map<String, String>): BooleanBuilder {
+...
+}
+
+// 제목 조건 검색
+private fun titleLike(title: String?): com.querydsl.core.types.dsl.BooleanExpression {
+...
+}
+
+// 카테고리 조건 검색 
+private fun categoryEq(category: String?): com.querydsl.core.types.dsl.BooleanExpression {
+...
+}
+
+// 태그 조건 검색
+private fun tagLike(tag: String?): com.querydsl.core.types.dsl.BooleanExpression {
+...
+}
+
+// 게시글 상태 조건 검색
+private fun stateEq(stateCode: String?): com.querydsl.core.types.dsl.BooleanExpression {
+...
+}
+
+// N일 전 게시글 검색
+private fun withInDays(daysAgo: String?): com.querydsl.core.types.dsl.BooleanExpression {
 ...
 }
 
 ```
 
-- Service
+- 테스트 코드
 
 ```Kotlin
 
-// 댓글 조회 (할 일 카드에서 조회 가능)
-fun getComment(commentId : Long) : CommentResponse
-
-// userId로 할 일 카드를 지정하여 댓글 생성
-fun createComment(userId: Long, request: CommentRequest) : CommentResponse
-
-// userId로 할 일 카드를 지정하여 댓글 수정
-fun updateComment(userId: Long, commentId: Long, request: CommentRequest) : CommentResponse
-
-// userId로 할 일 카드를 지정하여 댓글 삭제
-fun deleteComment(userId: Long, commentId: Long, request: DeleteCommentRequest)
-
-```
-
-- Repository
-
-```Kotlin
-
-interface CommentRepository: JpaRepository<Comment, Long> {
-    fun findByTodoCardUseridAndCommentid(userId: Long, commentId: Long): Comment?
-}
-
-```
-
-- Model
-
-```Kotlin
-
-class Comment (
-...
-// N:1
-// DATA에 맞는 DB Column 지정
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userid")
-    val todoCard: TodoCard,
-...
-)
-// Column 일치하는 곳에 DATA 삽입
-fun Comment.toResponse(): CommentResponse{
+// TodoCardControllerTest.kt
+// 조회 테스트
+class TodoCardControllerTest @Autowired constructor(
+    private val mockMvc: MockMvc,
+    private val jwtPlugin: JwtPlugin,
+    @MockkBean private val todoCardService: TodoCardService,
+) : DescribeSpec({
 ...
 }
 
+// UserRepositoryTest.kt
+// 회원가입 테스트
+class UserRepositoryTest {
+...
+}
+
+// UserRepositoryTest.kt
+// 회원가입 테스트
+class CourseServiceTest : BehaviorSpec({
+...
+}
 ```
 
 </div></details>
 
 <details>
-<summary> User </summary><div>
+<summary> AWS </summary><div>
 
-- Controller
-
-```Kotlin
-
-@PostMapping("/signup")
-fun createUser(@RequestBody userRequest: UserRequest): ResponseEntity<UserResponse> {
-...
-}
-// 사용자 생성
-...
-fun login(@RequestBody userRequest: UserRequest): ResponseEntity<UserResponse>{
-...
-}
-// 사용자 로그인
-
-```
-
-- Service
+- S3
 
 ```Kotlin
 
-fun createUser(request: UserRequest): UserResponse
-//사용자 생성
+// FileUploadController.kt
 
-fun login(request: UserRequest): UserResponse
-// 사용자 로그인
-
-```
-
-- Repository
-
-```Kotlin
-
-interface UserRepository: JpaRepository<User, Long> {
-    fun findByEmailAndPassword(email: String, password: String): User
+@RestController
+@RequestMapping("/api")
+class FileUploadController {
+...
+   fun uploadFile(@RequestPart(value = "file") file: MultipartFile): String {
+   }
 }
 
-```
+// AwsConfig.kt
 
-- Model
+class AwsConfig {
+    @Value("\${amazon.aws.accesskey}")
+    private val awsAccessKey: String? = null
 
-```Kotlin
+    @Value("\${amazon.aws.secretkey}")
+    private val awsSecretKey: String? = null
 
-class User(
-)
-...
-// Column 일치하는 곳에 DATA 삽입
-fun User.toResponse(): UserResponse {
+    @Value("\${amazon.aws.region}")
+    private val awsRegion: String? = null
 ...
 }
 
@@ -376,4 +346,3 @@ fun User.toResponse(): UserResponse {
 ![Jdk17](https://img.shields.io/badge/jdk17-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white"/)
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
-

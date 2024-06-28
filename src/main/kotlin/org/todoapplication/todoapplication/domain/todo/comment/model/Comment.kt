@@ -17,8 +17,7 @@ class Comment(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "todo_id")
     val todoCard: TodoCard,
-
-    ) {
+) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var commentId: Long? = null

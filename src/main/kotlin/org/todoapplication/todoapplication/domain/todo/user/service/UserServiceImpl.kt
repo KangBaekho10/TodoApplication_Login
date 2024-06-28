@@ -30,9 +30,6 @@ class UserServiceImpl(
         if (userRepository.existsByEmail(request.email)) {
             throw IllegalStateException("중복된 이메일입니다.")
         }
-        if (request.password.length < 4) {
-            throw IllegalStateException("비밀번호는 최소 4자 이상 필요합니다.")
-        }
         if (request.nickname.length < 3) {
             throw IllegalStateException("닉네임은 최소 3자 이상 필요합니다.")
         } else if (nicknameLower.contains(passwordLower)) {
@@ -40,7 +37,7 @@ class UserServiceImpl(
         } else if (userRepository.existsByNickname(request.nickname)) {
             throw IllegalStateException("중복된 닉네임입니다.")
         } else if (!isValidNickname(request.nickname)) {
-            throw IllegalStateException("닉네임에 알파벳 대소문자(a~z, A~Z), 숫자(0~9)가 필요합니다.")
+            throw IllegalStateException("닉네임에 최소 4자 이상 필요하고, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)로 구성되어야 합니다.")
         }
         return userRepository.save(
             User(
@@ -79,7 +76,7 @@ class UserServiceImpl(
     override fun isNicknameAvailable(nickname: String): Boolean {
         val alreadyUsed = userRepository.findByNickname(nickname)
         if (!isValidNickname(nickname)) {
-            throw IllegalStateException("닉네임에 알파벳 대소문자(a~z, A~Z), 숫자(0~9)가 필요합니다.")
+            throw IllegalStateException("닉네임에 최소 4자 이상 필요하고, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)로 구성되어야 합니다.")
         } else if (userRepository.existsByNickname(nickname)) {
             throw IllegalStateException("중복된 닉네임입니다.")
         }

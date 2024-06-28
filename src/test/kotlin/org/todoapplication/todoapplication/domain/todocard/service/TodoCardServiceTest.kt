@@ -12,12 +12,11 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.repository.findByIdOrNull
 import org.todoapplication.todoapplication.domain.exception.ModelNotFoundException
 import org.todoapplication.todoapplication.domain.todo.todocard.repository.TodoCardRepository
-import org.todoapplication.todoapplication.domain.todo.todocard.repository.TodoCardRepositoryImpl
 import org.todoapplication.todoapplication.domain.todo.todocard.service.TodoCardServiceImpl
 
 @SpringBootTest
 @ExtendWith(MockKExtension::class)
-class CourseServiceTest : BehaviorSpec({
+class TodoCardServiceTest : BehaviorSpec({
     extension(SpringExtension)
 
     afterContainer {
